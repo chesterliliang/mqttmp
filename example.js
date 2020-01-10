@@ -8,7 +8,8 @@ var up_topic_list = ['/up/get_params/', '/up/periodical_report/', '/up/send_tran
 var down_topic_list = ['/down/get_params/', '/down/periodical_report/', '/down/send/transaction'];
 
 var down_test = {
-  "status": "ok"
+  "status": "ok",
+  "data":""
 };
 
 var down_get_params = {
@@ -53,9 +54,9 @@ client.subscribe(test_net_req);
 console.log('listening');
 
 client.on('message', function (topic, message) {
-  console.log("11");
   if (topic== test_net_req){
-    console.log('test_net_req');
+    console.log('test_net_req:'+ message);
+    down_test.data = ''+message;
     client.publish(test_net_res, JSON.stringify(down_test));
     return;
   }
