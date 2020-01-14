@@ -64,62 +64,56 @@ client.subscribe(test_net_req);
 
 console.log('listening');
 
+
+
 client.on('message', function (topic, message) {
-  if (topic == test_net_req) {
-    console.log('test_net_req:' + message);
-    down_test.data = '' + message;
-    client.publish(test_net_res, JSON.stringify(down_test));
-    return;
-  }
-  if (topic == register_topic) {
-    console.log('register');
-    return;
-  }
-  var address = topic.substring(topic.length - 42, topic.length);
-  console.log('address = ' + address);
-  var topic_only = topic.substring(0, topic.length - 42);
-  console.log('message:' + message);
-  // var index = parseInt(message);
-  // index = index - 1;
-  // if (g_counter != index) {
-  //   console.log('---missing----');
-  //   console.log('---missing----');
-  //   console.log('---missing----');
-  //   while (true) {
 
-  //   }
-  // }
-  // g_counter = g_counter + 1;
+  setTimeout(function (topic, message){
+    if (topic == test_net_req) {
+      console.log('test_net_req:' + message);
+      down_test.data = '' + message;
+      client.publish(test_net_res, JSON.stringify(down_test));
+      return;
+    }
+    if (topic == register_topic) {
+      console.log('register');
+      return;
+    }
+    var address = topic.substring(topic.length - 42, topic.length);
+    console.log('address = ' + address);
+    var topic_only = topic.substring(0, topic.length - 42);
+    console.log('message:' + message);
 
-
-  switch (topic_only) {
-    case up_topic_list[0]:
-      console.log('topic = ' + topic_only);//'/up/get_params/'
-      var publish_topic = down_topic_list[0] + address;
-      client.publish(publish_topic, JSON.stringify(down_get_params));
-      break;
-    case up_topic_list[1]:
-      console.log('topic = ' + topic_only);
-      var publish_topic = down_topic_list[1] + address;
-      client.publish(publish_topic, JSON.stringify(down_report));
-      break;
-    case up_topic_list[2]:
-      console.log('topic = ' + topic_only);
-      var publish_topic = down_topic_list[1] + address;
-      client.publish(publish_topic, JSON.stringify(down_report));
-      break;
-    case up_topic_list[3]:
-      console.log('topic = ' + topic_only);
-      var publish_topic = down_topic_list[2] + address;
-      client.publish(publish_topic, JSON.stringify(down_tx));
-      break;
-    case up_topic_list[4]:
-      console.log('topic = ' + topic_only);
-      var publish_topic = down_topic_list[2] + address;
-      client.publish(publish_topic, JSON.stringify(down_tx));
-      break;
-    default:
-      console.log('unknown message')
-  }
+    switch (topic_only) {
+      case up_topic_list[0]:
+        console.log('topic = ' + topic_only);//'/up/get_params/'
+        var publish_topic = down_topic_list[0] + address;
+        client.publish(publish_topic, JSON.stringify(down_get_params));
+        break;
+      case up_topic_list[1]:
+        console.log('topic = ' + topic_only);
+        var publish_topic = down_topic_list[1] + address;
+        client.publish(publish_topic, JSON.stringify(down_report));
+        break;
+      case up_topic_list[2]:
+        console.log('topic = ' + topic_only);
+        var publish_topic = down_topic_list[1] + address;
+        client.publish(publish_topic, JSON.stringify(down_report));
+        break;
+      case up_topic_list[3]:
+        console.log('topic = ' + topic_only);
+        var publish_topic = down_topic_list[2] + address;
+        client.publish(publish_topic, JSON.stringify(down_tx));
+        break;
+      case up_topic_list[4]:
+        console.log('topic = ' + topic_only);
+        var publish_topic = down_topic_list[2] + address;
+        client.publish(publish_topic, JSON.stringify(down_tx));
+        break;
+      default:
+        console.log('unknown message')
+    }
+  },20000, topic, message);
+  
 })
 
